@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人资料修改</title>
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href='{% static "layui/css/layui.css" %}'/>
+</head>
+<body>
+<canvas class="cavs" width="1575" height="1337"></canvas>
+
+<div class="profilemain">
+    <div class="login-title">
+        <span>个人资料修改</span>
+    </div>
+    <form method="post" action="{% url "profile" user.id %}">
+        {% csrf_token %}
+
+        <div class="login-con">
+            <div class="login-user">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-username.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="text" name="phone" placeholder="电话" autocomplete="off" value="">
+                </label>
+            </div>
+            <div class="login-user">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-username.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="text" name="favor" placeholder="爱好" autocomplete="off" value="">
+                </label>
+            </div>
+            <div class="login-user">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-username.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="text" name="stella" placeholder="星座" autocomplete="off" value="">
+                </label>
+            </div>
+            <div class="login-user">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-username.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="text" name="birth" placeholder="生日" autocomplete="off" value="">
+                </label>
+            </div>
+            <div class="login-user">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-username.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="text" name="selfintro" placeholder="简介" autocomplete="off" value="">
+                </label>
+            </div>
+            <div class="login-btn">
+                <input type="submit" value="提交">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="profilesec">
+    <div class="login-title">
+        <span>个人资料查看-{{ user.username }}</span>
+    </div>
+
+
+    <div class="login-con">
+
+        <div class="proflie-show">
+            {{ profile.phone }}
+        </div>
+        <div class="proflie-show">
+            <p>{{ profile.favor }}</p>
+        </div>
+        <div class="proflie-show">
+            <p>{{ profile.constellation }}</p>
+        </div>
+        <div class="proflie-show">
+            {{ profile.birth }}
+        </div>
+        <div class="proflie-show">
+            {{ profile.self_intro }}
+        </div>
+        <a class="layui-btn layui-btn-normal" style="margin-top: 20px" href="{% url 'blog' %}">返回博客</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="{% static "js/ban.js" %}"></script>

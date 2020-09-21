@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="col-content">
+                <div class="inner">
+                    <article class="article-list bloglist" id="LAY_bloglist">
+                        {% for a in list %}
+                            <section class="article-item zoomIn article">
+                                <h5 class="title">
+                                    <a href="{% url 'read' a.id %}">{{ a.title }}</a>
+                                </h5>
+                                <div class="time">
+                                    <span class="day">{{ a.created_time|date:"d日" }}</span>
+                                    <span class="month fs-18"><span
+                                            class="fs-14">{{ a.created_time|date:"m月" }}</span></span>
+                                    <span class="year fs-18 ml10">{{ a.created_time|date:"Y年" }}</span>
+                                </div>
+                                <div class="content">
+                                    <a href="{% url 'read' a.id %}" class="cover img-light">
+                                        <img src="{% static "image/article/" %}{{ a.title }}.jpg "
+                                             alt="{{ a.title }}.jpg">
+                                    </a>
+                                    {{ a.excerpt }}
+                                </div>
+                                <div class="read-more">
+                                    <a href="{% url 'read' a.id %}" class="fc-black f-fwb">继续阅读</a>
+                                </div>
+                                <aside class="f-oh footer">
+
+                                    <div class="f-fl tags">
+                                        {% for t in a.tags.all %}
+                                            <span class="fa fa-tags fs-16"></span>
+                                            <a class="tag" href="{% url 'tags' t.name %}">{{ t.name }}</a>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="f-fr">
+									<span class="read">
+										<i class="fa fa-eye fs-16"></i>
+										<i class="num">{{ a.views }}</i>
+									</span>
+                                    </div>
+                                </aside>
+                            </section>
+                        {% endfor %}
+                    </article>
+                </div>
+                <div class="pagination">
+                    <ul>
+                        {% if list.has_previous %}
+                            <li class="prev-page"><a href="?page={{ list.previous_page_number }}">上一页</a></li>
+                        {% else %}
+                            <li class="prev-page"></li>
+                        {% endif %}
+
+
+                        {% for num in list.paginator.page_range %}
+                            {% if num %}
+                                {% ifequal num list.number %}
+                                    <li class="active"><span>{{ num }}</span></li>
+                                {% else %}
+                                    <li><a href="?page={{ num }}">{{ num }}</a></li>
+                                {% endifequal %}
+                            {% else %}
+                                <li class="disabled"><span>...</span></li>
+                            {% endif %}
+                        {% endfor %}
+
+
+                        {% if list.has_next %}
+                            <li class="next-page"><a href="?page={{ list.next_page_number }}">下一页</a></li>
+                        {% else %}
+                            <li class="prev-page"></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-other">
+                <div class="inner">
+                    <div class="other-item" id="categoryandsearch">
+                        <div class="search">
+                            <form method="get" class="search-wrap" action="{% url 'search' %}">
+                                <label>
+                                    <input class="text" name="search" type="text" placeholder="输入标题关键字" value="">
+                                </label>
+                                <button class="search-icon" type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                            <ul class="search-result"></ul>
+                        </div>
+
+                        <ul class="category mt20" id="category">
+
+                            <li><a href={% url 'blog' %}>全部文章</a></li>
+                            {% for category in allcategory %}
+                                <li><a href={% url 'list' category.id %}>{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!--右边悬浮 平板或手机设备显示-->
+                    <div class="category-toggle"><i class="layui-icon">&#xe603;</i></div>
+                    <div class="article-category">
+                        <div class="article-category-title">分类导航</div>
+                        {% for category in allcategory %}
+                            <a href="{% url 'index' %}list-{{ category.id }}.html">{{ category.name }}</a>
+                        {% endfor %}
+                        <div class="f-cb"></div>
+                    </div>
+                    <!--遮罩-->
+                    <div class="blog-mask animated layui-hide"></div>
+                    <div class="other-item">
+                        <h5 class="other-item-title">热门文章</h5>
+                        <div class="inner">
+                            <ul class="hot-list-article">
+                                {% for s in star %}
+                                    <li><a href="{% url 'read' s.id %}">{{ s.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="other-item">
+                        <h5 class="other-item-title">最新文章</h5>
+                        <div class="inner">
+                            <ul class="hot-list-article">
+                                {% for na in newarticle %}
+                                    <li><a href="{% url 'read' na.id %}">{{ na.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

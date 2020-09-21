@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ read.title }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="col-content" style="width:100%">
+                <div class="inner">
+                    <article class="article-list">
+                        <input type="hidden" value="@Model.BlogTypeID" id="blogtypeid"/>
+                        <section class="article-item">
+                            <aside class="title" style="line-height:1.5;">
+                                <h4>{{ read.title }}</h4>
+                                <p class="fc-grey fs-14">
+                                    <small>
+                                        作者：<a href="https://gitee.com/dzsass" target="_blank"
+                                              class="fc-link">{{ read.auth }}</a>
+                                    </small>
+                                    <small class="ml10">围观群众：<i class="readcount">{{ read.views }}</i></small>
+                                    <small class="ml10">更新于 <label>{{ read.modified_time }}</label> </small>
+                                </p>
+                            </aside>
+                            <div class="time mt10" style="padding-bottom:0;">
+                                <span class="day">{{ read.created_time|date:"d日" }}</span>
+                                <span class="month fs-18"><small
+                                        class="fs-14">{{ read.created_time|date:"m月" }}</small></span>
+                                <span class="year fs-18">{{ read.created_time|date:"Y年" }}</span>
+                            </div>
+                            <div class="content artiledetail"
+                                 style="border-bottom: 1px solid #e1e2e0; padding-bottom: 20px;">
+                                {{ read.body|safe }}
+                                <div class="copyright mt20">
+                                    <p class="f-toe fc-black">标签:
+                                        {% for tag in read.tags.all %}
+                                            <a href="{% url 'tags' tag.name %}" rel="tag">{{ tag.name }}</a>
+                                        {% endfor %}
+                                    </p>
+                                    <p class="f-toe">
+                                        本文标题：
+                                        <a href="javascript:void(0)" class="r-title">{{ read.title }}</a>
+                                    </p>
+                                    <p class="f-toe">
+                                        本文其他博客网址：
+                                        <a href="{{ read.urls }}">{{ read.urls }}</a>
+                                    </p>
+                                </div>
+                                <div id="aplayer" style="margin:5px 0"></div>
+                                <ol class="b-relation"></ol>
+                            </div>
+                            {% for a in cmts %}
+                                <div class="f-cb"></div>
+                                <div class="mt20 f-fwn fs-24 fc-grey comment"
+                                     style="border-top: 1px solid #e1e2e0; padding-top: 20px;">
+                                <ul class="message-list" id="message-list">
+                                    <li class="zoomIn article">
+                                        <div class="info">
+                                            <span class="username">{{ a.body }}</span>
+                                        </div>
+                                        <p class="info info-footer">
+                                            <span class="comment-time">用户:{{ a.user }}      评论时间：{{ a.created_time }}</span>
+                                        </p>
+                                    </li>
+                                </ul>
+                                </div>
+                            {% endfor %}
+
+                            <fieldset class="layui-elem-field layui-field-title">
+                                <legend>发表评论</legend>
+
+                                <div class="layui-field-box">
+                                    {% if user.is_authenticated %}
+                                        <div class="textarea-wrap message" id="textarea-wrap">
+                                            <form class="layui-form blog-editor" method="post"
+                                                  action={% url 'Artc' read.id %}>
+                                                {% csrf_token %}
+                                                <div class="layui-form-item">
+                                                    <div class="layui-form-item">
+                                                        <label for="body"></label><textarea type="text" id="body"
+                                                                                            name="body" rows="2"
+                                                                                            placeholder="请输入评论内容"
+                                                                                            class="layui-textarea"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <button type="submit" class="layui-btn">评论</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% else %}
+                                        <div class="textarea-wrap message" id="textarea-wrap">
+                                            <a class="layui-btn layui-btn-normal" style="margin-top: 20px"
+                                               href="{% url 'log_in' %}">登陆后评论</a>
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+                            </fieldset>
+                            <div>
+                                <div><b>上一篇：</b>
+                                    {% if next_blog %}
+                                        <a href="read-{{ next_blog.pk }}.html" class="article-tag">{{ next_blog }}</a>
+                                    {% else %}
+                                        没有了
+                                    {% endif %}
+                                </div>
+                                <div><b>下一篇：</b>
+                                    {% if previous_blog %}
+                                        <a href="read-{{ previous_blog.pk }}.html"
+                                           class="article-tag">{{ previous_blog }}</a>
+                                    {% else %}
+                                        没有了
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </section>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

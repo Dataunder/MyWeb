@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}留言{% endblock %}
+
+{% block content %}
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="container-inner">
+                <section class="msg-remark">
+                    <h1>留言板</h1>
+                    <p>
+                        沟通交流，拉近你我！
+                    </p>
+                </section>
+                <div class="textarea-wrap message" id="textarea-wrap">
+                    <form class="layui-form blog-editor" method="post" action="{% url 'message' %}">
+                        {% csrf_token %}
+                        <div class="layui-form-item">
+                            <div class="layui-form-item">
+                                <label for="body"></label><textarea type="text" id="body" name="body" rows="2" placeholder="请输入留言内容" class="layui-textarea" ></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <button  type="submit"  class="layui-btn" >留言</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="f-cb"></div>
+            <div class="mt20">
+                <ul class="message-list" id="message-list">
+                    {% for cnt in cnts %}
+                    <li class="zoomIn article">
+                        <div class="comment-parent">
+                            <div class="info">
+                                <span class="username">用户:{{ cnt.user }}</span>
+                            </div>
+                            <div class="comment-content">
+                                留言内容:{{ cnt.body }}
+                            </div>
+                            <p class="info info-footer">
+                                <span class="comment-time">评论时间:{{ cnt.created_time }}</span>
+                            </p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

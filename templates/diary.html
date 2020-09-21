@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}日记{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href='{% static "css/timeline.css" %}'/>
+{% endblock %}
+
+{% block content %}
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="timeline-box shadow">
+                <div class="timeline-main">
+                    <h1><i class="fa fa-clock-o"></i>日记</h1>
+                    <div class="timeline-line"></div>
+                    {% for d in dary %}
+                        <div class="timeline-year">
+                            <h2><a class="yearToggle">{{ d.created_time|date:"Y年" }}</a><i
+                                    class="fa fa-caret-down fa-fw"></i></h2>
+                            <div class="timeline-month">
+                                <ul>
+                                    <li>
+                                        <div class="h4 animated fadeInLeft">
+                                            <p class="date">{{ d.created_time|date:"m月d日" }}</p>
+                                        </div>
+                                        <p class="dot-circle animated "><i class="fa fa-dot-circle-o"></i></p>
+                                        <div class="content animated fadeInRight">{{ d.msg }}</div>
+                                        <div class="clear"></div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <h1 style="padding-top:4px;padding-bottom:2px;margin-top:40px;"><i class="fa fa-hourglass-end"></i>THE
+                        END</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

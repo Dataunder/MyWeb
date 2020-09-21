@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+</head>
+<body>
+<canvas class="cavs" width="1575" height="1337"></canvas>
+<form method="post" action="{% url "register" %}">
+    <div class="registermain">
+        <div class="login-title">
+            <span>{{ error_message }}</span>
+        </div>
+        {% csrf_token %}
+        <div class="login-con">
+            <div class="login-user">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-username.png" %}" alt="">
+                </div>
+
+                <label>
+                    <input type="text" name="email" placeholder="输入邮箱" autocomplete="off" value="">
+                </label>
+            </div>
+
+            <div class="login-user">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-username.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="text" name="username" placeholder="输入用户名" autocomplete="off" value="">
+                </label>
+            </div>
+
+
+            <div class="login-pwd">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-password.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="password" name="pwd_1" placeholder="输入密码" autocomplete="off" value="">
+                </label>
+            </div>
+
+            <div class="login-pwd">
+                <div class="icon">
+                    <img src="{% static "image/cd-icon-password.png" %}" alt="">
+                </div>
+                <label>
+                    <input type="password" name="pwd_2" placeholder="再次输入密码" autocomplete="off" value="">
+                </label>
+            </div>
+            <div class="login-btn">
+                <input type="submit" value="注册">
+            </div>
+
+        </div>
+
+    </div>
+</form>
+</body>
+</html>
+
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="{% static "js/ban.js" %}"></script>
